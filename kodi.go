@@ -141,6 +141,7 @@ func ParseVideoURL(url string) (string) {
 			case "vimeo":
 				outputURL = "plugin://plugin.video.vimeo/play/?video_id=" + vid
 			}
+			break
 		}
 	}
 	if ! found {
