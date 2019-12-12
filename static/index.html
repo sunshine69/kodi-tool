@@ -1,0 +1,91 @@
+<html>
+<head>
+  <title>Send video link to kodi</title>
+  <script type="text/javascript" src='/static/ajax.js'></script>
+  <script language="javascript">
+    function kodi_add_url() {
+      AJAX.postText("/add", "url=" + encodeURIComponent(document.getElementById('vid_link').value) + "&kodi_addr=" + document.getElementById('kodi_addr').value, function (r) {
+                  console.log(r);
+              });
+    }
+    function kodi_play_url() {
+      AJAX.postText("/play", "url=" + encodeURIComponent(document.getElementById('vid_link').value) + "&kodi_addr=" + document.getElementById('kodi_addr').value, function (r) {
+                  console.log(r);
+              });
+    }
+    function kodi_insert_url() {
+      AJAX.postText("/add", "url=" + encodeURIComponent(document.getElementById('vid_link').value) + "&kodi_addr=" + document.getElementById('kodi_addr').value + "&position=1", function (r) {
+                  console.log(r);
+              });
+    }
+    function kodi_play_list() {
+      AJAX.postText("/playlist", "kodi_addr=" + document.getElementById('kodi_addr').value + "&list_text=" + encodeURIComponent(document.getElementById('list_text').value), function (r) {
+          console.log(r);
+      });
+    }
+    function kodi_save_list() {
+      AJAX.postText("/savelist", "kodi_addr=" + document.getElementById('kodi_addr').value + "&list_text=" + encodeURIComponent(document.getElementById('list_text').value) + "&list_name=" + encodeURIComponent(document.getElementById('list_name').value) , function (r) {
+        console.log(r);
+      });
+    }
+    function kodi_load_list(list_name) {
+      AJAX.postText("/loadlist", "kodi_addr=" + document.getElementById('kodi_addr').value + "&list_name=" + encodeURIComponent(list_name) , function (r) {
+        t = document.getElementById('list_text');
+        t.value = r;
+      });
+    }
+
+  </script>
+</head>
+
+<body>
+<p style="text-align: center;"><strong><em>Send video links to kodi instance</em></strong></p>
+
+<table align="center" border="0" cellpadding="3" cellspacing="3">
+  <tbody>
+    <tr>
+      <td>link</td>
+      <td><input name="vid_link" id="vid_link" size="990" type="text" style="width: 150px;"/></td>
+      <td><input name="clear" type="button" value="clear" onclick="var t = document.getElementById('vid_link'); t.value=''; t.focus(); return;" /></td>
+      <td><input name="submit" type="button" value="append to list" onclick="return kodi_add_url();" /></td>
+    </tr>
+    <tr>
+      <td>kodi</td>
+      <td>
+        <select name="kodi_addr" id="kodi_addr">
+            <option value="">Default</option>
+            <option value="192.168.0.130:9090">192.168.0.130:9090</option>
+            <option value="localhost:9090">localhost:9090</option>
+        </select>
+      </td>
+      <td><input name="playbtn" type="button" value="play" onclick="return kodi_play_url();" /></td>
+      <td><input name="insertbtn" type="button" value="prepend list" onclick="return kodi_insert_url();" /></td>
+    </tr>
+  </tbody>
+</table>
+<hr>
+<p style="text-align: center;"><strong><em>Save Song List</em></strong></p>
+
+<table align="center" cellpadding="3" cellspacing="3">
+  <tbody>
+    <tr>
+      <td>List name</td>
+      <td colspan="3"><input name="list_name" id="list_name" size="990" type="text" style="width: 300px;"/>
+      <input name="clear" type="button" value="clear" onclick="var t = document.getElementById('list_name'); t.value=''; t.focus(); return;" />
+      <input name="load" type="button" value="Load" onclick="return kodi_load_list(document.getElementById('list_name').value);" />
+      <input name="loadrecent" type="button" value="Load recent" onclick="return kodi_load_list('recent');" />
+      <input name="load" type="button" value="Save" onclick="return kodi_save_list();" />
+    </td>
+    </tr>
+    <tr>
+      <td>text</td>
+      <td>
+          <textarea name="list_text" id="list_text" cols="80" rows="25" ></textarea>
+      </td>
+      <td><input name="clear" type="button" value="clear" onclick="t = document.getElementById('list_text'); t.value=''; t.focus(); return;" /></td>
+      <td><input name="play" type="button" value="play list" onclick="return kodi_play_list();" /></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
