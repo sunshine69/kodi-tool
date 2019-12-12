@@ -26,3 +26,6 @@ You can create a new tab in browser, goto youtube, search song, copy link url
 and insert it in. Play around the simple GUI interface.
 
 I usually use it for karaoke list :P
+
+You can cross build on Linux ARM as I ran on my X96 box (using linux-deploy to get a chroot
+linux there to run several other servers)
