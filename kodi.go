@@ -62,7 +62,7 @@ func ClearCurrentList(listID int) {
 }
 
 func AddToPlayList(listID int, entry string) {
-	kodiYoutubeUrl := ParseYoutubeURL(entry)
+	kodiYoutubeUrl := ParseVideoURL(entry)
 
 	client := GetKodiClient()
 	defer client.Close()
@@ -81,7 +81,7 @@ func AddToPlayList(listID int, entry string) {
 }
 
 func InsertToPlayList(listID int, entry string, position int) {
-	kodiYoutubeUrl := ParseYoutubeURL(entry)
+	kodiYoutubeUrl := ParseVideoURL(entry)
 
 	client := GetKodiClient()
 	defer client.Close()
@@ -122,24 +122,38 @@ func GetActivePlayer() (int) {
 	return o1.ToInt()
 }
 
-func ParseYoutubeURL(url string) (string) {
-	var kodiYourtubeURL string
-	ptn := regexp.MustCompile(`youtube.com\/watch\?v\=([^\=\&]+)`)
-	match := ptn.FindStringSubmatch(url)
-	if len(match) > 0{
-		vid := match[1]
-		kodiYourtubeURL = "plugin://plugin.video.youtube/?action=play_video&videoid=" + vid
-	} else {//pas through as it is
-		kodiYourtubeURL = url
+func ParseVideoURL(url string) (string) {
+	outputURL := ""
+	found := false
+
+	patterns := map[string]*regexp.Regexp{
+		"youtube": regexp.MustCompile(`youtube\.com\/watch\?v\=([^\=\&]+)`),
+		"vimeo": regexp.MustCompile(`vimeo\.com\/([\d]+)`),
 	}
-	// fmt.Println(kodiYourtubeURL)
-	return kodiYourtubeURL
+	for vtype, ptn := range(patterns) {
+		match := ptn.FindStringSubmatch(url)
+		if len(match) > 0{
+			found = true
+			vid := match[1]
+			switch vtype {
+			case "youtube":
+				outputURL = "plugin://plugin.video.youtube/?action=play_video&videoid=" + vid
+			case "vimeo":
+				outputURL = "plugin://plugin.video.vimeo/play/?video_id=" + vid
+			}
+		}
+	}
+	if ! found {
+		outputURL = url
+	}
+	// fmt.Println(outputURL)
+	return outputURL
 }
 
 func PlayYoutube(url string) {
 	client := GetKodiClient()
 	defer client.Close()
-	youtubeUrl := ParseYoutubeURL(url)
+	youtubeUrl := ParseVideoURL(url)
 
 	if youtubeUrl != "" {
 		params := map[string]interface{} {
