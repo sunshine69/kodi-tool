@@ -229,13 +229,14 @@ func HandleSaveList(w http.ResponseWriter, r *http.Request) {
 func HandlePlayList(w http.ResponseWriter, r *http.Request) {
 	ParseCommon(w, r)
 	data := r.FormValue("list_text")
+	action := r.FormValue("action")
 	listUrls := strings.Split(data, "\n")
 	playerID := GetActivePlayer()
 	listID := GetCurrentPlayList(playerID)
 	// log.Printf("DEBUG: ListID %d\n", listID)
-
-	ClearCurrentList(listID)
-
+	if action == "play"{
+		ClearCurrentList(listID)
+	}
 	for _, url := range(listUrls) {
 		_tmp := strings.Split(url, " ")
 		if _tmp[0] == "" { continue }

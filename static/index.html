@@ -19,7 +19,12 @@
               });
     }
     function kodi_play_list() {
-      AJAX.postText("/playlist", "kodi_addr=" + document.getElementById('kodi_addr').value + "&list_text=" + encodeURIComponent(document.getElementById('list_text').value), function (r) {
+      AJAX.postText("/playlist", "kodi_addr=" + document.getElementById('kodi_addr').value + "&list_text=" + encodeURIComponent(document.getElementById('list_text').value) + "&action=play", function (r) {
+          console.log(r);
+      });
+    }
+    function kodi_append_list() {
+      AJAX.postText("/playlist", "kodi_addr=" + document.getElementById('kodi_addr').value + "&list_text=" + encodeURIComponent(document.getElementById('list_text').value) + "&action=append", function (r) {
           console.log(r);
       });
     }
@@ -75,6 +80,7 @@
       <input name="load" type="button" value="Load" onclick="return kodi_load_list(document.getElementById('list_name').value);" />
       <input name="loadrecent" type="button" value="Load recent" onclick="return kodi_load_list('recent');" />
       <input name="load" type="button" value="Save" onclick="return kodi_save_list();" />
+      <input name="append" type="button" value="Append" onclick="return kodi_append_list();" />
     </td>
     </tr>
     <tr>
