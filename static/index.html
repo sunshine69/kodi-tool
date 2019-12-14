@@ -5,32 +5,32 @@
   <script language="javascript">
     function kodi_add_url() {
       AJAX.postText("/add", "url=" + encodeURIComponent(document.getElementById('vid_link').value) + "&kodi_addr=" + document.getElementById('kodi_addr').value, function (r) {
-                  console.log(r);
+                  alert(r);
               });
     }
     function kodi_play_url() {
       AJAX.postText("/play", "url=" + encodeURIComponent(document.getElementById('vid_link').value) + "&kodi_addr=" + document.getElementById('kodi_addr').value, function (r) {
-                  console.log(r);
+                  alert(r);
               });
     }
     function kodi_insert_url() {
       AJAX.postText("/add", "url=" + encodeURIComponent(document.getElementById('vid_link').value) + "&kodi_addr=" + document.getElementById('kodi_addr').value + "&position=1", function (r) {
-                  console.log(r);
+                  alert(r);
               });
     }
     function kodi_play_list() {
       AJAX.postText("/playlist", "kodi_addr=" + document.getElementById('kodi_addr').value + "&list_text=" + encodeURIComponent(document.getElementById('list_text').value) + "&action=play", function (r) {
-          console.log(r);
+          alert(r);
       });
     }
     function kodi_append_list() {
       AJAX.postText("/playlist", "kodi_addr=" + document.getElementById('kodi_addr').value + "&list_text=" + encodeURIComponent(document.getElementById('list_text').value) + "&action=append", function (r) {
-          console.log(r);
+          alert(r);
       });
     }
     function kodi_save_list() {
       AJAX.postText("/savelist", "kodi_addr=" + document.getElementById('kodi_addr').value + "&list_text=" + encodeURIComponent(document.getElementById('list_text').value) + "&list_name=" + encodeURIComponent(document.getElementById('list_name').value) , function (r) {
-        console.log(r);
+        alert(r);
       });
     }
     function kodi_load_list(list_name) {
